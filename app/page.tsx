@@ -39,7 +39,7 @@ export default function Home() {
           alt="angle-down"
           width={24}
           height={24}
-          src="icons/angle-down.svg"
+          src="/icons/angle-down.svg"
         ></Image>
       </div>
 
@@ -74,8 +74,8 @@ export default function Home() {
                 height={24}
                 src={
                   isLoading
-                    ? "icons/spinner-alt.svg"
-                    : "icons/arrow-small-right.svg"
+                    ? "/icons/spinner-alt.svg"
+                    : "/icons/arrow-small-right.svg"
                 }
               ></Image>
             </Button>
