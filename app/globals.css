@@ -31,6 +31,10 @@
   @apply font-text text-[16px]/[100%];
 }
 
+.text-16-145 {
+  @apply font-text text-[16px]/[145%];
+}
+
 .text-24 {
   @apply font-text text-[16px]/[100%] md:text-[20px] xl:text-[24px];
 }
