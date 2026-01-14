@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Unbounded, Noto_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+import LocalStorageProvider from "@/components/providers/LocalStorageProvider";
+
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
+  subsets: ["latin", "cyrillic"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSans = Noto_Sans({
+  variable: "--font-noto-sans",
+  subsets: ["latin", "cyrillic"],
 });
 
 export const metadata: Metadata = {
@@ -23,11 +28,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${notoSans.variable} ${unbounded.variable} antialiased`}
       >
-        {children}
+        <div className="mx-auto flex min-h-dvh max-w-[1536px] min-w-[320px] flex-col bg-[url(/bg.webp)] bg-contain bg-top bg-no-repeat px-3 py-6">
+          <Header />
+          <div className="content-gap pt-[calc(200px/3*1)] pb-[calc(300px/3*1)] md:pt-[calc(200px/3*2)] md:pb-[calc(300px/3*2)] xl:pt-[calc(200px/3*3)] xl:pb-[calc(300px/3*3)]">
+            <LocalStorageProvider />
+            {children}
+          </div>
+          <Footer />
+        </div>
       </body>
     </html>
   );

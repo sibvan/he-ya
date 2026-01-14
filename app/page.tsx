@@ -1,65 +1,88 @@
+"use client";
+
+import clsx from "clsx";
 import Image from "next/image";
+import Button from "@/components/ui/Button";
+import { ChangeEvent, FormEvent } from "react";
+import { usePlaylist } from "@/hooks/usePlaylist";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { getVideos, url, setUrl, setError, isLoading, error } = usePlaylist();
+  const router = useRouter();
+  const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setError(null);
+    setUrl(e.target.value);
+  };
+
+  const formOnSubmitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+    const id = await getVideos();
+    if (id) {
+      router.push(`/playlists/${id}`);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <>
+      <div>
+        <h1 className="flex flex-col gap-2 text-center">
+          <span className="text-24 tracking-widest uppercase">
+            Учитесь эффективно по плейлистам
+          </span>
+          <span className="title-h1 tracking-widest">YOUTUBE</span>
+        </h1>
+      </div>
+      <div className="flex justify-center">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          className="h-6 w-6"
+          alt="angle-down"
+          width={24}
+          height={24}
+          src="icons/angle-down.svg"
+        ></Image>
+      </div>
+
+      <div className="flex w-full flex-col items-center gap-4">
+        <div
+          className={clsx(
+            isLoading ? "w-16" : "w-full md:w-[80%] xl:w-[50%]",
+            "transition-width relative h-16 rounded-full bg-white duration-300 ease-in-out",
+          )}
+        >
+          <form
+            action=""
+            onSubmit={(e) => formOnSubmitHandler(e)}
+            className="h-full w-full"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <input
+              value={url}
+              onChange={(e) => inputOnChangeHandler(e)}
+              placeholder="Вставьте ссылку на плейлист сюда"
+              type="text"
+              className={clsx(
+                "text-16 mb-4 h-full w-full rounded-full pl-6 outline-1 outline-black/20 placeholder:text-black/50 hover:outline-black/50 focus:outline-black/80",
+                isLoading && "hidden",
+              )}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+            <Button className="absolute top-2 right-2 cursor-pointer">
+              <Image
+                className={clsx("h-6 w-6", isLoading && "animate-spin")}
+                alt="arrow-small-right"
+                width={24}
+                height={24}
+                src={
+                  isLoading
+                    ? "icons/spinner-alt.svg"
+                    : "icons/arrow-small-right.svg"
+                }
+              ></Image>
+            </Button>
+          </form>
         </div>
-      </main>
-    </div>
+        {error && <p className="text-16 text-red text-center">{error}</p>}
+      </div>
+    </>
   );
 }
