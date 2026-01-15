@@ -4,26 +4,34 @@ import { useParams } from "next/navigation";
 import { usePlaylistsStore } from "@/stores/usePlaylistsStore";
 import clsx from "clsx";
 import { usePlaylist } from "@/hooks/usePlaylist";
-
 import Link from "next/link";
-
 import Image from "next/image";
-
 import Status from "@/components/ui/Status";
 import Checkbox from "@/components/ui/Checkbox";
+import { useRouter } from "next/navigation";
 
 const PlaylistPage = () => {
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : "";
+  const router = useRouter();
 
   const playlist = usePlaylistsStore((state) => state.findPlaylistById(id));
   const changeStatus = usePlaylistsStore((state) => state.changeStatus);
+  const deletePlaylist = usePlaylistsStore((state) => state.deletePlaylist);
   const title = playlist?.title || "";
   const videos = playlist?.videos || [];
 
   const { getPercent } = usePlaylist();
 
   const percent = getPercent(videos);
+
+  const deletePlaylistOnClickHandle = () => {
+    const confirm = window.confirm("Вы уверены, что хотите удалить плейлист?");
+    if (confirm) {
+      deletePlaylist(id);
+      router.push(`/playlists/`);
+    }
+  };
 
   return (
     <>
@@ -47,7 +55,10 @@ const PlaylistPage = () => {
               {percent === 100 ? "Закончил" : `${percent} %`}
             </Status>
           </div>
-          {/* <div className="flex items-center gap-2">
+          <div
+            onClick={deletePlaylistOnClickHandle}
+            className="flex cursor-pointer items-center gap-2"
+          >
             <Image
               className="h-6 w-6"
               alt="trash"
@@ -56,7 +67,7 @@ const PlaylistPage = () => {
               src="/icons/trash.svg"
             ></Image>
             <p className="text-16 text-red truncate">Удалить плейлист</p>
-          </div> */}
+          </div>
         </div>
         <h1 className="title-h1">{title}</h1>
       </div>
