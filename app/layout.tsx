@@ -18,6 +18,9 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.svg",
+  },
   title: "he▶︎ya",
   description: "Учитесь эффективно по плейлистам YouTube",
 };
