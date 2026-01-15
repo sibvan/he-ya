@@ -57,8 +57,8 @@ const Header = () => {
       />
       <header
         className={clsx(
-          "z-1 flex w-dvw flex-col justify-between transition duration-300 ease-in-out md:static md:h-auto md:w-auto md:flex-row md:bg-transparent md:p-0",
-          isMenuOpen && "fixed top-0 left-0 h-dvh bg-white px-3 py-6",
+          "flex flex-col justify-between transition duration-300 ease-in-out md:flex-row",
+          isMenuOpen && "fixed top-0 left-0 z-1 h-dvh w-dvw bg-white px-3 py-6",
         )}
       >
         <div className="flex justify-between">
