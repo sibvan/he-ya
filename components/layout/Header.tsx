@@ -9,7 +9,7 @@ import Status from "../ui/Status";
 import { usePlaylistsStore } from "@/stores/usePlaylistsStore";
 import clsx from "clsx";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Header = () => {
   const playlistsNum = usePlaylistsStore((state) => state.getPlaylistNum());
@@ -19,6 +19,28 @@ const Header = () => {
   const burgerOnClickHandler = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const closeMenuOnResize = () => {
+    if (window.innerWidth >= 768) setIsMenuOpen(false);
+  };
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add("overflow-hidden");
+    }
+
+    if (!isMenuOpen) {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    window.addEventListener("resize", closeMenuOnResize);
+
+    return () => {
+      window.removeEventListener("resize", closeMenuOnResize);
+    };
+  }, []);
 
   const closeMenu = () => {
     setIsMenuOpen(false);
