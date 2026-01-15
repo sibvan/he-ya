@@ -25,9 +25,22 @@ const PlaylistPage = () => {
 
   const percent = getPercent(videos);
 
+  const checkboxOnClickHandler = (
+    playlistId: string,
+    videoId: string,
+    feature: "theory" | "practice",
+    event: React.MouseEvent,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    changeStatus(playlistId, videoId, feature);
+  };
+
   const deletePlaylistOnClickHandle = () => {
-    const confirm = window.confirm("Вы уверены, что хотите удалить плейлист?");
-    if (confirm) {
+    const isConfirmed = window.confirm(
+      "Вы уверены, что хотите удалить плейлист?",
+    );
+    if (isConfirmed) {
       deletePlaylist(id);
       router.push(`/playlists/`);
     }
@@ -81,6 +94,16 @@ const PlaylistPage = () => {
             <p className="text-16">Теория</p>
             <div className="bg-grey h-full w-px"></div>
             <p className="text-16">Практика</p>
+            <div className="bg-grey h-full w-px"></div>
+            <div className="flex w-6 justify-center">
+              <Image
+                className="h-4 w-4"
+                alt="youtube"
+                width={24}
+                height={24}
+                src="/icons/youtube.svg"
+              ></Image>
+            </div>
           </div>
         </div>
         <div className="cards-grid">
@@ -88,7 +111,7 @@ const PlaylistPage = () => {
             return (
               <a
                 className="card flex flex-col justify-between gap-6 py-6 md:flex-row md:py-0"
-                // href={video.url}
+                href={video.url}
                 target="_blank"
                 key={video.id}
               >
@@ -100,10 +123,12 @@ const PlaylistPage = () => {
                 >
                   {video.title}
                 </p>
-                <div className="flex gap-4 md:gap-6">
+                <div className="flex justify-between gap-4 md:gap-6">
                   <div className="bg-grey hidden h-full w-px md:block"></div>
                   <div
-                    onClick={() => changeStatus(id, video.id, "theory")}
+                    onClick={(event) =>
+                      checkboxOnClickHandler(id, video.id, "theory", event)
+                    }
                     className="relative flex cursor-pointer items-center gap-2"
                   >
                     <Checkbox
@@ -114,7 +139,9 @@ const PlaylistPage = () => {
                   </div>
                   <div className="bg-grey hidden h-full w-px md:block"></div>
                   <div
-                    onClick={() => changeStatus(id, video.id, "practice")}
+                    onClick={(event) =>
+                      checkboxOnClickHandler(id, video.id, "practice", event)
+                    }
                     className="relative flex cursor-pointer items-center gap-2"
                   >
                     <Checkbox
@@ -122,6 +149,16 @@ const PlaylistPage = () => {
                       className="md:absolute md:right-0 md:left-0 md:m-auto"
                     />
                     <p className="text-16 md:invisible">Практика</p>
+                  </div>
+                  <div className="bg-grey hidden h-full w-px md:block"></div>
+                  <div className="ml-auto flex h-full w-6 shrink-0 items-center justify-center">
+                    <Image
+                      className="h-6 w-6"
+                      alt="right"
+                      width={24}
+                      height={24}
+                      src="/icons/right.svg"
+                    ></Image>
                   </div>
                 </div>
               </a>
