@@ -5,6 +5,7 @@ type Video = {
   theory: boolean;
   practice: boolean;
   title: string;
+  url: string;
 };
 
 type VideoFeature = "theory" | "practice";
