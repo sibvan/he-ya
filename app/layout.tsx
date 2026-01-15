@@ -34,7 +34,7 @@ export default function RootLayout({
       >
         <div className="mx-auto flex min-h-dvh max-w-[1536px] min-w-[320px] flex-col bg-[url(/bg.webp)] bg-contain bg-top bg-no-repeat px-3 py-6">
           <Header />
-          <div className="content-gap pt-[calc(200px/3*1)] pb-[calc(300px/3*1)] md:pt-[calc(200px/3*2)] md:pb-[calc(300px/3*2)] xl:pt-[calc(200px/3*3)] xl:pb-[calc(300px/3*3)]">
+          <div className="content-gap flex-1 pt-[calc(200px/3*1)] pb-[calc(300px/3*1)] md:pt-[calc(200px/3*2)] md:pb-[calc(300px/3*2)] xl:pt-[calc(200px/3*3)] xl:pb-[calc(300px/3*3)]">
             <LocalStorageProvider />
             {children}
           </div>
