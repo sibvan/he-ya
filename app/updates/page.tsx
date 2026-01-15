@@ -4,6 +4,12 @@ import Status from "@/components/ui/Status";
 
 const content = [
   {
+    title: "Страница 404",
+    date: "15.01.2026",
+    description:
+      "Добавил кастомную страницу 404. Надеюсь, никто и никогда её не увидит. А если всё же увидит — пусть она будет красивой.",
+  },
+  {
     title: "Автофокус поля",
     date: "15.01.2026",
     description:
