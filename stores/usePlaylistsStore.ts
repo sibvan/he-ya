@@ -14,6 +14,7 @@ type Playlist = {
   title: string;
   url: string;
   videos: Video[];
+  date: number;
 };
 
 type PlaylistsStore = {
@@ -52,6 +53,7 @@ export const usePlaylistsStore = create<PlaylistsStore>((set, get) => ({
           ? playlist
           : {
               ...playlist,
+              date: Date.now(),
               videos: playlist.videos.map((video) =>
                 video.id === videoId
                   ? { ...video, [feature]: !video[feature] }
@@ -65,7 +67,9 @@ export const usePlaylistsStore = create<PlaylistsStore>((set, get) => ({
   addPlaylist: (playlist) => {
     const exists = get().playlists.some((p) => p.id === playlist.id);
     if (!exists) {
-      set((state) => ({ playlists: [...state.playlists, playlist] }));
+      set((state) => ({
+        playlists: [...state.playlists, { ...playlist, date: Date.now() }],
+      }));
     }
   },
 
