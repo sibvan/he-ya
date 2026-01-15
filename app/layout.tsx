@@ -18,8 +18,8 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "HE▶YA",
-  description: "Учитесь эффективно по плейлистам YOUTUBE",
+  title: "he▶︎ya",
+  description: "Учитесь эффективно по плейлистам YouTube",
 };
 
 export default function RootLayout({

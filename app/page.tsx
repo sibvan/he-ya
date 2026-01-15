@@ -3,11 +3,12 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { usePlaylist } from "@/hooks/usePlaylist";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const inputRef = useRef<HTMLInputElement>(null);
   const { getVideos, url, setUrl, setError, isLoading, error } = usePlaylist();
   const router = useRouter();
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +23,10 @@ export default function Home() {
       router.push(`/playlists/${id}`);
     }
   };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   return (
     <>
@@ -56,6 +61,7 @@ export default function Home() {
             className="h-full w-full"
           >
             <input
+              ref={inputRef}
               value={url}
               onChange={(e) => inputOnChangeHandler(e)}
               placeholder="Вставьте ссылку на плейлист сюда"
