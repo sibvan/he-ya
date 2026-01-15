@@ -22,6 +22,7 @@ type PlaylistsStore = {
 
   setPlaylists: (playlists: Playlist[]) => void;
   addPlaylist: (playlist: Playlist) => void;
+  deletePlaylist: (id: string) => void;
   findPlaylistById: (id: string) => Playlist | undefined;
   changeStatus: (
     playlistId: string,
@@ -66,5 +67,12 @@ export const usePlaylistsStore = create<PlaylistsStore>((set, get) => ({
     if (!exists) {
       set((state) => ({ playlists: [...state.playlists, playlist] }));
     }
+  },
+
+  deletePlaylist: (id) => {
+    const filteredPlaylists = get().playlists.filter(
+      (playlist) => playlist.id !== id,
+    );
+    set({ playlists: filteredPlaylists });
   },
 }));
