@@ -135,7 +135,7 @@ const PlaylistPage = () => {
                       done={video.theory}
                       className="shrink-0 md:absolute md:right-0 md:left-0 md:m-auto"
                     />
-                    <p className="text-16 truncate md:invisible">Теория 1</p>
+                    <p className="text-16 truncate md:invisible">Теория</p>
                   </div>
                   <div className="bg-grey hidden h-full w-px md:block"></div>
                   <div
@@ -148,7 +148,7 @@ const PlaylistPage = () => {
                       done={video.practice}
                       className="shrink-0 md:absolute md:right-0 md:left-0 md:m-auto"
                     />
-                    <p className="text-16 truncate md:invisible">Практика 2</p>
+                    <p className="text-16 truncate md:invisible">Практика</p>
                   </div>
                   <div className="bg-grey hidden h-full w-px md:block"></div>
                   <div className="ml-auto flex h-full w-6 shrink-0 items-center justify-center">
