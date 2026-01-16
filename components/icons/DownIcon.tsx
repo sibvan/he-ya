@@ -1,10 +1,6 @@
-// тип дублируется
+import type { IconProps } from "@/types/icon.ts";
 
-type IconProps = {
-  className: string;
-};
-
-const IconAngleDown = (props: IconProps) => {
+const DownIcon = (props: IconProps) => {
   const { className } = props;
   return (
     <svg
@@ -30,4 +26,4 @@ const IconAngleDown = (props: IconProps) => {
   );
 };
 
-export default IconAngleDown;
+export default DownIcon;

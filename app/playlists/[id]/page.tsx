@@ -10,7 +10,7 @@ import Status from "@/components/ui/Status";
 import Checkbox from "@/components/ui/Checkbox";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import IconArrowBack from "@/components/icons/IconArrowBack";
+import BackIcon from "@/components/icons/BackIcon";
 
 const PlaylistPage = () => {
   const params = useParams();
@@ -73,7 +73,7 @@ const PlaylistPage = () => {
               href="/playlists"
               className="flex cursor-pointer items-center gap-2"
             >
-              <IconArrowBack className="h-6 w-6" />
+              <BackIcon className="h-6 w-6" />
 
               <p className="text-16">Назад</p>
             </Link>

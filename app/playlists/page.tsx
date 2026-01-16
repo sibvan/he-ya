@@ -5,6 +5,7 @@ import Link from "next/link";
 import Status from "@/components/ui/Status";
 import { usePlaylist } from "@/hooks/usePlaylist";
 import Placeholder from "@/components/blocks/Placeholder";
+import PlaylistsPlaceholderIcon from "@/components/icons/PlaylistsPlaceholderIcon";
 
 const PlaylistsPage = () => {
   const { getPercent } = usePlaylist();
@@ -47,7 +48,7 @@ const PlaylistsPage = () => {
         <Placeholder
           title="У вас нет сохранённых плейлистов"
           subtitle="Добавьте первый с помощью кнопки в шапке"
-          icon="placeholder-playlists"
+          Icon={PlaylistsPlaceholderIcon}
         />
       )}
     </>

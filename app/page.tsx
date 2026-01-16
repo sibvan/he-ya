@@ -7,7 +7,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { usePlaylist } from "@/hooks/usePlaylist";
 import { useRouter } from "next/navigation";
 
-import IconAngleDown from "@/components/icons/IconAngleDown";
+import DownIcon from "@/components/icons/DownIcon";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +41,7 @@ export default function Home() {
         </h1>
       </div>
       <div className="flex justify-center text-black">
-        <IconAngleDown className="h-6 w-6" />
+        <DownIcon className="h-6 w-6" />
       </div>
 
       <div className="flex w-full flex-col items-center gap-4">
