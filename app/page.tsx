@@ -35,7 +35,7 @@ export default function Home() {
       <div>
         <h1 className="flex flex-col gap-2 text-center">
           <span className="text-24 tracking-widest uppercase">
-            Учитесь эффективно по плейлистам
+            Учитесь эффективно по плейлистам
           </span>
           <span className="title-h1 tracking-widest">YOUTUBE</span>
         </h1>
