@@ -10,6 +10,7 @@ import Status from "@/components/ui/Status";
 import Checkbox from "@/components/ui/Checkbox";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import IconArrowBack from "@/components/icons/IconArrowBack";
 
 const PlaylistPage = () => {
   const params = useParams();
@@ -72,13 +73,8 @@ const PlaylistPage = () => {
               href="/playlists"
               className="flex cursor-pointer items-center gap-2"
             >
-              <Image
-                className="h-6 w-6"
-                alt="back"
-                width={24}
-                height={24}
-                src="/icons/back.svg"
-              ></Image>
+              <IconArrowBack className="h-6 w-6" />
+
               <p className="text-16">Назад</p>
             </Link>
             <Status color={percent === 100 ? "green" : "blue"}>

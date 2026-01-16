@@ -35,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${notoSans.variable} ${unbounded.variable} antialiased`}
       >
-        <div className="mx-auto flex min-h-dvh max-w-[1536px] min-w-[320px] flex-col bg-[url(/bg.webp)] bg-contain bg-top bg-no-repeat px-3 py-6">
+        <div className="mx-auto flex min-h-dvh max-w-[1536px] min-w-[320px] flex-col bg-[url(/bg.webp)] bg-contain bg-top bg-no-repeat px-3 py-6 dark:bg-[url(/bg-dark.webp)]">
           <Header />
           <div className="content-gap flex-1 pt-[calc(200px/3*1)] pb-[calc(300px/3*1)] md:pt-[calc(200px/3*2)] md:pb-[calc(300px/3*2)] xl:pt-[calc(200px/3*3)] xl:pb-[calc(300px/3*3)]">
             <LocalStorageProvider />
