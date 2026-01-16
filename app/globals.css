@@ -1,18 +1,36 @@
 @import "tailwindcss";
 
+:root {
+  --white: #fff;
+  --grey: #f6f6f6;
+  --black: #191919;
+  --red: #f75708;
+  --blue: #5b98ff;
+  --light-blue: #bee0ff;
+  --green: #5b985e;
+  --light-green: #bee0c0;
+}
+
 @theme inline {
   --font-title: var(--font-unbounded);
   --font-text: var(--font-noto-sans);
 
-  --color-grey: #f6f6f6;
-  --color-red: #f75708;
-  --color-black: #191919;
+  --color-white: var(--white);
+  --color-grey: var(--grey);
+  --color-red: var(--red);
+  --color-black: var(--black);
+  --color-blue: var(--blue);
+  --color-light-blue: var(--light-blue);
+  --color-green: var(--green);
+  --color-light-green: var(--light-green);
+}
 
-  --color-blue: #5b98ff;
-  --color-light-blue: #bee0ff;
-
-  --color-green: #5b985e;
-  --color-light-green: #bee0c0;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white: #5F5F5F;
+    --grey: #1D1D1D;
+    --black: #F6F6F6;
+  }
 }
 
 .card {

@@ -7,6 +7,8 @@ import { ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { usePlaylist } from "@/hooks/usePlaylist";
 import { useRouter } from "next/navigation";
 
+import IconAngleDown from "@/components/icons/IconAngleDown";
+
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { getVideos, url, setUrl, setError, isLoading, error } = usePlaylist();
@@ -38,14 +40,8 @@ export default function Home() {
           <span className="title-h1 tracking-widest">YOUTUBE</span>
         </h1>
       </div>
-      <div className="flex justify-center">
-        <Image
-          className="h-6 w-6"
-          alt="angle-down"
-          width={24}
-          height={24}
-          src="/icons/angle-down.svg"
-        ></Image>
+      <div className="flex justify-center text-black">
+        <IconAngleDown className="h-6 w-6" />
       </div>
 
       <div className="flex w-full flex-col items-center gap-4">
