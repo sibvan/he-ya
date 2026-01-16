@@ -9,6 +9,7 @@ import Image from "next/image";
 import Status from "@/components/ui/Status";
 import Checkbox from "@/components/ui/Checkbox";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 const PlaylistPage = () => {
   const params = useParams();
@@ -20,6 +21,12 @@ const PlaylistPage = () => {
   const deletePlaylist = usePlaylistsStore((state) => state.deletePlaylist);
   const title = playlist?.title || "";
   const videos = playlist?.videos || [];
+
+  const firstIncompleteVideoRef = useRef<HTMLAnchorElement | null>(null);
+  const firstIncompleteVideoId = videos.find(
+    (video) => !video.theory || !video.practice,
+  )?.id;
+  const hasScrolled = useRef(false);
 
   const { getPercent } = usePlaylist();
 
@@ -45,6 +52,16 @@ const PlaylistPage = () => {
       router.push(`/playlists/`);
     }
   };
+
+  useEffect(() => {
+    if (firstIncompleteVideoRef.current && !hasScrolled.current) {
+      firstIncompleteVideoRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      hasScrolled.current = true;
+    }
+  }, [firstIncompleteVideoId]);
 
   return (
     <>
@@ -110,6 +127,11 @@ const PlaylistPage = () => {
           {videos?.map((video) => {
             return (
               <a
+                ref={
+                  firstIncompleteVideoId === video.id
+                    ? firstIncompleteVideoRef
+                    : null
+                }
                 className="card flex flex-col justify-between gap-6 py-6 md:flex-row md:py-0"
                 href={video.url}
                 target="_blank"
