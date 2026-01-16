@@ -1,4 +1,5 @@
 import Placeholder from "@/components/blocks/Placeholder";
+import NotFoundIcon from "@/components/icons/NotFoundIcon";
 
 const NotFound = () => {
   return (
@@ -7,7 +8,7 @@ const NotFound = () => {
       <Placeholder
         title="Страница не найдена"
         subtitle="Попробуйте вернуться на главную"
-        icon="404"
+        Icon={NotFoundIcon}
       />
     </>
   );

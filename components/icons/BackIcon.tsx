@@ -1,10 +1,6 @@
-// тип дублируется
+import type { IconProps } from "@/types/icon.ts";
 
-type IconProps = {
-  className: string;
-};
-
-const IconArrowBack = (props: IconProps) => {
+const BackIcon = (props: IconProps) => {
   const { className } = props;
   return (
     <svg
@@ -23,4 +19,4 @@ const IconArrowBack = (props: IconProps) => {
   );
 };
 
-export default IconArrowBack;
+export default BackIcon;
