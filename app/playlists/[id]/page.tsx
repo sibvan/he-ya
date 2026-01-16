@@ -129,26 +129,26 @@ const PlaylistPage = () => {
                     onClick={(event) =>
                       checkboxOnClickHandler(id, video.id, "theory", event)
                     }
-                    className="relative flex cursor-pointer items-center gap-2"
+                    className="relative flex min-w-0 cursor-pointer items-center gap-2"
                   >
                     <Checkbox
                       done={video.theory}
-                      className="md:absolute md:right-0 md:left-0 md:m-auto"
+                      className="shrink-0 md:absolute md:right-0 md:left-0 md:m-auto"
                     />
-                    <p className="text-16 md:invisible">Теория</p>
+                    <p className="text-16 truncate md:invisible">Теория 1</p>
                   </div>
                   <div className="bg-grey hidden h-full w-px md:block"></div>
                   <div
                     onClick={(event) =>
                       checkboxOnClickHandler(id, video.id, "practice", event)
                     }
-                    className="relative flex cursor-pointer items-center gap-2"
+                    className="relative flex min-w-0 cursor-pointer items-center gap-2"
                   >
                     <Checkbox
                       done={video.practice}
-                      className="md:absolute md:right-0 md:left-0 md:m-auto"
+                      className="shrink-0 md:absolute md:right-0 md:left-0 md:m-auto"
                     />
-                    <p className="text-16 md:invisible">Практика</p>
+                    <p className="text-16 truncate md:invisible">Практика 2</p>
                   </div>
                   <div className="bg-grey hidden h-full w-px md:block"></div>
                   <div className="ml-auto flex h-full w-6 shrink-0 items-center justify-center">
