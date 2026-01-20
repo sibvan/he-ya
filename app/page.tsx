@@ -11,7 +11,7 @@ import DownIcon from "@/components/icons/DownIcon";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { getVideos, url, setUrl, setError, isLoading, error } = usePlaylist();
+  const { getList, url, setUrl, setError, isLoading, error } = usePlaylist();
   const router = useRouter();
   const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setError(null);
@@ -20,7 +20,7 @@ export default function Home() {
 
   const formOnSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    const id = await getVideos();
+    const id = await getList();
     if (id) {
       router.push(`/playlists/${id}`);
     }
@@ -60,7 +60,7 @@ export default function Home() {
               ref={inputRef}
               value={url}
               onChange={(e) => inputOnChangeHandler(e)}
-              placeholder="Вставьте ссылку на плейлист сюда"
+              placeholder="Вставьте ссылку на плейлист или видео сюда"
               type="text"
               className={clsx(
                 "text-16 mb-4 h-full w-full rounded-full pl-6 outline-1 outline-black/20 placeholder:text-black/50 hover:outline-black/50 focus:outline-black/80",

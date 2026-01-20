@@ -16,22 +16,34 @@ export const usePlaylist = () => {
 
   const [url, setUrl] = useState("");
 
-  const getVideos = async () => {
-    let id;
-
+  const getList = async () => {
     if (url.trim().length === 0) {
       setError("Вы ничего не ввели в поле");
       return;
     }
 
+    let id = null;
+    let type = "";
+
     try {
-      id = new URL(url).searchParams.get("list");
-      if (!id) {
-        setError("Ссылка должна вести на плейлист YouTube");
-        return;
+      const params = new URL(url).searchParams;
+
+      if (params.has("v")) {
+        id = params.get("v");
+        type = "video";
       }
-    } catch {
-      setError("Ссылка должна вести на плейлист YouTube");
+
+      if (params.has("list")) {
+        id = params.get("list");
+        type = "playlist";
+      }
+      if (!id) throw new Error("Не удалось определить id видео или плейлиста");
+    } catch (e: unknown) {
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Ссылка должна вести на плейлист или видео YouTube",
+      );
       return;
     }
 
@@ -41,14 +53,15 @@ export const usePlaylist = () => {
 
       const localPlaylist = findPlaylistById(id);
       if (!localPlaylist) {
-        const res = await fetch("/api/youtube/" + id);
+        const res = await fetch("/api/" + type + "/" + id);
         const data = await res.json();
+
         addPlaylist(data);
       }
 
       return id;
     } catch {
-      setError("Не удалось загрузить видео из плейлиста");
+      setError("Не удалось загрузить");
     } finally {
       setIsLoading(false);
     }
@@ -68,5 +81,5 @@ export const usePlaylist = () => {
     );
   };
 
-  return { getVideos, url, setUrl, setError, isLoading, error, getPercent };
+  return { getList, url, setUrl, setError, isLoading, error, getPercent };
 };
