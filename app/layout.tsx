@@ -6,6 +6,7 @@ import LocalStorageProvider from "@/components/providers/LocalStorageProvider";
 
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import ButtonScrollToTop from "@/components/ui/ButtonScrollToTop";
 
 const unbounded = Unbounded({
   variable: "--font-unbounded",
@@ -41,6 +42,7 @@ export default function RootLayout({
             <LocalStorageProvider />
             {children}
           </div>
+          <ButtonScrollToTop />
           <Footer />
         </div>
       </body>
