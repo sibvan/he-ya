@@ -27,9 +27,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --white: #5F5F5F;
-    --grey: #1D1D1D;
-    --black: #F6F6F6;
+    --white: #5f5f5f;
+    --grey: #1d1d1d;
+    --black: #f6f6f6;
   }
 }
 
@@ -59,6 +59,10 @@
 
 .title-24-120 {
   @apply font-title text-[16px]/[120%] md:text-[20px] xl:text-[24px];
+}
+
+.title-24 {
+  @apply font-title text-[16px]/[100%] md:text-[20px] xl:text-[24px];
 }
 
 .title-h1 {
