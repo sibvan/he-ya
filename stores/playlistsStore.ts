@@ -24,14 +24,16 @@ const usePlaylistsStore = create<PlaylistsStore>((set, get) => ({
           }
           return v;
         });
-        return { ...p, videos: updatedVideos };
+        return { ...p, videos: updatedVideos, date: Date.now() };
       }
       return p;
     });
     set(() => ({ playlists: updatedPlaylists }));
   },
 
- 
+  // findPlaylistById: (id) => {
+  //   return get().playlists.find((playlist) => playlist.playlistId === id);
+  // },
 }));
 
 export { usePlaylistsStore };

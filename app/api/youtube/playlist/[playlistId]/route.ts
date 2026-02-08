@@ -12,7 +12,7 @@ export const GET = async (
     getVideos(playlistId),
   ]);
 
-  const playlist = { title, videos, playlistId };
+  const playlist = { title, videos, playlistId, date: Date.now() };
 
   return NextResponse.json(playlist);
 };

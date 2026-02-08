@@ -31,11 +31,12 @@ const checkPlaylistInDb = async (playlistId: string, userId: string) => {
 
 const getPlaylistsFromDb = async (userId: string) => {
   const response = await playlistsCollection.find({ userId }).toArray();
-  return response.map(({ playlistId, userId, title, videos }) => ({
+  return response.map(({ playlistId, userId, title, videos, date }) => ({
     playlistId,
     userId,
     title,
     videos,
+    date,
   }));
 };
 
@@ -52,6 +53,7 @@ const updateStatusInDb = async (
 
   const updateDocument = {
     $set: {
+      date: Date.now(),
       [`videos.$.${type}`]: !video[type],
     },
   };
