@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+
+  --black: #191919;
+  --grey: #F6F6F6;
+  --white: #FFFFFF;
+  --red: #F75708;
+  --green: #5B985E;
+  --light-green: #BEE0C0;
+  --blue: #5B98FF;
+  --light-blue: #BEE0FF;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-black: var(--black);
+  --color-grey: var(--grey);
+  --color-white: var(--white);
+  --color-red: var(--red);
+  --color-green: var(--green);
+  --color-blue: var(--blue);
+  --color-light-green: var(--light-green);
+  --color-light-blue: var(--light-blue);
+
+  --font-text: var(--font-noto-sans);
+  --font-title: var(--font-unbounded);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.text-16 {
+  @apply text-[16px]/[100%];
+}
+
+.text-24 {
+  @apply xl:text-[24px]/[100%] md:text-[20px]/[100%] text-[16px]/[100%];
+}
+
+.card {
+  @apply bg-white p-6 rounded-[20px] block;
+}
+
+.cards-gap {
+  @apply gap-2 md:gap-4 xl:gap-6;
+}
+
+.title-24-120 {
+  @apply xl:text-[24px]/[120%] md:text-[20px]/[120%] text-[16px]/[120%] font-title;
+}
+
+.title-h1 {
+  @apply font-black font-title xl:text-[84px]/[100%] md:text-[70px]/[100%] text-[34.47px]/[100%];
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--grey);
+  color: var(--black);
+  font-family: "Noto Sans", sans-serif;
 }
