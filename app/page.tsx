@@ -2,23 +2,18 @@
 
 import { useState } from "react";
 import { authClient, signIn } from "@/lib/auth-client";
-import {
-  addPlaylistToDb,
-  deletePlaylistFromDb,
-  updateStatusInDb,
-} from "@/lib/actions";
+import { addPlaylistToDb } from "@/lib/actions";
 import { usePlaylistsStore } from "@/stores/playlistsStore";
-import { Playlist, TheoryOrPractice, Video } from "@/types/playlists";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const playlists = usePlaylistsStore((state) => state.playlists);
   const addPlaylist = usePlaylistsStore((state) => state.addPlaylist);
-  const deletePlaylist = usePlaylistsStore((state) => state.deletePlaylist);
-  const changeStatus = usePlaylistsStore((state) => state.changeStatus);
+  const playlists = usePlaylistsStore((state) => state.playlists);
 
-  const [link, setLink] = useState(
-    "https://www.youtube.com/playlist?list=PLC3y8-rFHvwhIEc4I4YsRz5C7GOBnxSJY",
-  );
+  const [link, setLink] = useState("");
+  const router = useRouter();
 
   const { data: session } = authClient.useSession();
 
@@ -27,20 +22,17 @@ export default function Home() {
     const playlistId = getPlaylistId(link);
     if (!playlistId) return;
     if (!session) signIn();
-    const wasPlaylistAdded = await addPlaylistToDbAndStore(playlistId);
-  };
 
-  const onButtonClick = async (playlist: Playlist) => {
-    const response = await deletePlaylistFromDb(
-      playlist.playlistId,
-      playlist.userId,
+    const isPlaylistInStore = playlists.find(
+      (playlist) => playlist.playlistId === playlistId,
     );
-
-    const wasPlaylistDeletedFromDb = response.deletedCount;
-
-    if (wasPlaylistDeletedFromDb) {
-      deletePlaylist(playlist);
+    if (isPlaylistInStore) {
+      router.push("/playlists/" + playlistId);
+      return;
     }
+
+    const wasPlaylistAdded = await addPlaylistToDbAndStore(playlistId);
+    if (wasPlaylistAdded) router.push(`/playlists/${playlistId}`);
   };
 
   const addPlaylistToDbAndStore = async (playlistId: string) => {
@@ -53,6 +45,7 @@ export default function Home() {
 
     if (wasPlaylistAddedToDb) {
       addPlaylist(playlist);
+      return true;
     }
   };
 
@@ -68,61 +61,52 @@ export default function Home() {
     return result;
   };
 
-  const onCheckboxChange = async (
-    playlist: Playlist,
-    video: Video,
-    type: TheoryOrPractice,
-  ) => {
-    const response = await updateStatusInDb(playlist, video, type);
-    const result = response.modifiedCount;
-
-    if (result) {
-      changeStatus(playlist, video.id, type);
-    }
-  };
-
   return (
     <>
-      <form onSubmit={onFormSubmit}>
-        <input
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
-          type="text"
-        />
-        <input type="submit" value="Добавить" />
-      </form>
-      <hr />
-      {playlists.map((playlist) => (
-        <div key={playlist.playlistId}>
-          <p>{playlist.title}</p>
-          <button onClick={() => onButtonClick(playlist)}>Удалить</button>
+      <div className="flex flex-col items-center gap-2">
+        <p className="text-24 text-center tracking-widest uppercase">
+          Учитесь эффективно по плейлистам
+        </p>
+        <h1 className="title-h1 tracking-widest uppercase">YOUTUBE</h1>
+      </div>
 
-          {playlist.videos.map((video) => (
-            <div key={video.id}>
-              <br />
-              <p>{video.title}</p>
-              <div>
-                <input
-                  checked={video.theory}
-                  onChange={() => onCheckboxChange(playlist, video, "theory")}
-                  type="checkbox"
-                />
-                <label>Теория</label>
-              </div>
+      <div className="flex justify-center">
+        <Image
+          className="h-6 w-6"
+          width={24}
+          height={24}
+          src="/icons/angle-down.svg"
+          alt="icon-angle-down"
+        ></Image>
+      </div>
 
-              <div>
-                <input
-                  checked={video.practice}
-                  onChange={() => onCheckboxChange(playlist, video, "practice")}
-                  type="checkbox"
-                />
-                <label>Практика</label>
-              </div>
-            </div>
-          ))}
-          <hr />
-        </div>
-      ))}
+      <div className="flex justify-center">
+        <form
+          className="relative flex w-full justify-center md:w-[80%] xl:w-[50%]"
+          onSubmit={onFormSubmit}
+        >
+          <input
+            className="text-16 h-16 w-full rounded-full bg-white p-6"
+            value={link}
+            placeholder="Вставьте ссылку на плейлист сюда"
+            onChange={(e) => setLink(e.target.value)}
+            type="text"
+          />
+
+          <button
+            className="bg-red absolute top-2 right-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full"
+            type="submit"
+          >
+            <Image
+              className="h-6 w-6 filter-[brightness(0)_invert(1)]"
+              width={24}
+              height={24}
+              src="/icons/arrow-small-right.svg"
+              alt="icon-arrow-small-right"
+            ></Image>
+          </button>
+        </form>
+      </div>
     </>
   );
 }
