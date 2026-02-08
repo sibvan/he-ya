@@ -25,6 +25,7 @@ type Playlist = {
   userId: string;
   title: string;
   videos: Video[];
+  date: number;
 };
 
 type YoutubeVideo = {
@@ -35,4 +36,21 @@ type YoutubeVideo = {
   id: string;
 };
 
-export type { Playlist, YoutubeVideo, PlaylistsStore, Video, TheoryOrPractice };
+type BageProps = {
+  text: string | number;
+  color: "grey" | "blue" | "green";
+};
+
+type StatusBageProps = {
+  videos: Video[];
+};
+
+export type {
+  Playlist,
+  YoutubeVideo,
+  PlaylistsStore,
+  Video,
+  TheoryOrPractice,
+  BageProps,
+  StatusBageProps,
+};
