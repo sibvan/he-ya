@@ -27,18 +27,23 @@ const getTitle = async (playlistId: string) => {
 };
 
 const getVideos = async (playlistId: string) => {
-  const response = await fetch(
-    `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${process.env.YOUTUBE_API_KEY}`,
-  );
-  const result = await response.json();
-
-  const videos = result.items.map((video: YoutubeVideo) => ({
-    title: video.snippet.title,
-    id: video.id,
-    theory: false,
-    practice: false,
-    link: `https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}&list=${playlistId}`,
-  }));
+  const videos = [];
+  let nextPageToken = "";
+  do {
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${process.env.YOUTUBE_API_KEY}&pageToken=${nextPageToken}`,
+    );
+    const result = await response.json();
+    nextPageToken = result.nextPageToken;
+    const pageVideos = result.items.map((video: YoutubeVideo) => ({
+      title: video.snippet.title,
+      id: video.id,
+      theory: false,
+      practice: false,
+      link: `https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}&list=${playlistId}`,
+    }));
+    videos.push(...pageVideos);
+  } while (nextPageToken);
 
   return videos;
 };
