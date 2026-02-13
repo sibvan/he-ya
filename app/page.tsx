@@ -5,6 +5,8 @@ import { authClient, signIn } from "@/lib/auth-client";
 import { addPlaylistToDb } from "@/lib/actions";
 import { usePlaylistsStore } from "@/stores/playlistsStore";
 
+import clsx from "clsx";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -12,20 +14,34 @@ export default function Home() {
   const addPlaylist = usePlaylistsStore((state) => state.addPlaylist);
   const playlists = usePlaylistsStore((state) => state.playlists);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const [link, setLink] = useState("");
   const router = useRouter();
 
   const { data: session } = authClient.useSession();
 
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLink(event.target.value);
+    setError("");
+  };
+
   const onFormSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     const playlistId = getPlaylistId(link);
-    if (!playlistId) return;
+
+    if (!playlistId) {
+      setError("Пожалуйста, проверьте ссылку");
+      return;
+    }
+
     if (!session) signIn();
 
     const isPlaylistInStore = playlists.find(
       (playlist) => playlist.playlistId === playlistId,
     );
+
     if (isPlaylistInStore) {
       router.push("/playlists/" + playlistId);
       return;
@@ -36,23 +52,32 @@ export default function Home() {
   };
 
   const addPlaylistToDbAndStore = async (playlistId: string) => {
-    const playlist = {
-      ...(await fetchPlaylist(playlistId)),
-      userId: session?.user.id,
-    };
+    setIsLoading(true);
+    try {
+      const playlist = {
+        ...(await fetchPlaylist(playlistId)),
+        userId: session?.user.id,
+      };
 
-    const wasPlaylistAddedToDb = await addPlaylistToDb(playlist);
+      const wasPlaylistAddedToDb = await addPlaylistToDb(playlist);
 
-    if (wasPlaylistAddedToDb) {
-      addPlaylist(playlist);
-      return true;
+      if (wasPlaylistAddedToDb) {
+        addPlaylist(playlist);
+        return true;
+      }
+    } catch {
+      setError("Не удалось получить видео");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getPlaylistId = (str: string) => {
     try {
       return new URL(str).searchParams.get("list");
-    } catch {}
+    } catch {
+    } finally {
+    }
   };
 
   const fetchPlaylist = async (playlistId: string) => {
@@ -80,32 +105,43 @@ export default function Home() {
         ></Image>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-4">
         <form
-          className="relative flex w-full justify-center md:w-[80%] xl:w-[50%]"
+          className={clsx(
+            "transition-width relative flex justify-center duration-300",
+            isLoading ? "w-16" : "w-full md:w-[80%] xl:w-[50%]",
+          )}
           onSubmit={onFormSubmit}
         >
           <input
             className="text-16 h-16 w-full rounded-full bg-white p-6"
             value={link}
             placeholder="Вставьте ссылку на плейлист сюда"
-            onChange={(e) => setLink(e.target.value)}
+            onChange={onInputChange}
             type="text"
           />
 
           <button
-            className="bg-red absolute top-2 right-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full"
+            className={clsx(
+              "bg-red absolute top-2 right-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full",
+              isLoading && "animate-spin",
+            )}
             type="submit"
           >
             <Image
               className="h-6 w-6 filter-[brightness(0)_invert(1)]"
               width={24}
               height={24}
-              src="/icons/arrow-small-right.svg"
+              src={
+                isLoading
+                  ? "/icons/spinner-alt.svg"
+                  : "/icons/arrow-small-right.svg"
+              }
               alt="icon-arrow-small-right"
             ></Image>
           </button>
         </form>
+        <p className="text-16 text-red">{error}</p>
       </div>
     </>
   );
