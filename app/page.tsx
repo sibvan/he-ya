@@ -36,7 +36,10 @@ export default function Home() {
       return;
     }
 
-    if (!session) signIn();
+    if (!session) {
+      signIn();
+      return;
+    }
 
     const isPlaylistInStore = playlists.find(
       (playlist) => playlist.playlistId === playlistId,
