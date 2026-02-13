@@ -7,10 +7,12 @@ import Image from "next/image";
 import StatusBage from "@/components/ui/StatusBage";
 import { deletePlaylistFromDb, updateStatusInDb } from "@/lib/actions";
 import { Playlist, TheoryOrPractice, Video } from "@/types/playlists";
+import { authClient } from "@/lib/auth-client";
+import { useEffect } from "react";
 
 const Page = () => {
   const router = useRouter();
-
+  const { data: session, isPending } = authClient.useSession();
   const params = useParams<{ id: string }>();
   const playlists = usePlaylistsStore((state) => state.playlists);
   const deletePlaylist = usePlaylistsStore((state) => state.deletePlaylist);
@@ -18,6 +20,10 @@ const Page = () => {
   const playlist = playlists.find(
     (playlist) => playlist.playlistId === params.id,
   );
+
+  useEffect(() => {
+    if (!session && !isPending) router.push("/");
+  }, [isPending, router, session]);
 
   const onDeleteClick = async () => {
     const confirm = window.confirm("Вы уверены, что хотите удалить плейлист?");
