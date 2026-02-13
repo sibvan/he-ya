@@ -1,0 +1,34 @@
+import Bage from "@/components/ui/Badge";
+
+const Page = () => {
+  const updates = [
+    {
+      date: "07.02.2026",
+      title: "Старт проекта",
+      text: "В первую очередь я делаю проект для себя. Я начинающий разработчик и много учусь. Я пробовал разные форматы и пришёл к тому, что учиться по YouTube мне комфортнее всего. Но каждый раз вручную копировать названия всех роликов из плейлиста и вставлять их в таблицу было очень неудобно. Так и появилась идея этого проекта. Текущую версию я запускаю как MVP. У меня куча идей, а значит впереди ещё много обновлений.",
+    },
+  ];
+
+  return (
+    <>
+      <h1 className="title-h1">Обновления</h1>
+      <div className="cards-gap flex flex-col">
+        {updates.map((update) => (
+          <div className="card" key={`${update.date} ${update.title}`}>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <Bage color="grey" text={update.date} />
+                <h2 className="title-24-120 font-black md:-order-1">
+                  {update.title}
+                </h2>
+              </div>
+              <p className="text-16-145">{update.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default Page;
