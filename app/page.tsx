@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { authClient, signIn } from "@/lib/auth-client";
 import { addPlaylistToDb } from "@/lib/actions";
 import { usePlaylistsStore } from "@/stores/playlistsStore";
@@ -16,11 +16,16 @@ export default function Home() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
   const [link, setLink] = useState("");
+
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { data: session } = authClient.useSession();
+
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, []);
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLink(event.target.value);
@@ -117,6 +122,7 @@ export default function Home() {
           onSubmit={onFormSubmit}
         >
           <input
+            ref={inputRef}
             className="text-16 h-16 w-full rounded-full bg-white p-6"
             value={link}
             placeholder="Вставьте ссылку на плейлист сюда"
